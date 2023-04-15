@@ -1,0 +1,73 @@
+<html>
+
+<body>
+  <div>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <div id="g_id_onload" data-client_id="958019244115-17vrt2d98ui2hkgshb04gvclcc1aqhqa.apps.googleusercontent.com"
+      data-auto_prompt="true" data-callback="handleLogin">
+    </div>
+
+    <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with"
+      data-shape="rectangular" data-logo_alignment="left">
+    </div>
+  </div>
+
+  <div>
+    resource: <input type="file" name="resource" id="resource">
+    <br>
+    images: <input type="file" name="images" id="images" multiple>
+    <br>
+    <button id="btnSent">Send</button>
+  </div>
+</body>
+<script>
+  function handleLogin(response) {
+    const { credential } = response || '';
+    fetch('http://localhost:3000/user/user-login', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ credential }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+      });
+  }
+
+  const btnSent = document.getElementById('btnSent');
+  btnSent.addEventListener('click', () => {
+    const resource = document.getElementById('resource').files;
+    const images = document.getElementById('images').files;
+
+    if (resource && images) {
+      const formData = new FormData();
+      formData.append('resource', resource[0]);
+      for (const img of images) {
+        formData.append('images', img);
+      };
+
+      formData.append('owner', 'trungtran');
+      formData.append('name', 'Dragon City');
+      formData.append('description', 'This is a best choice in summer 2023');
+
+      ['action', 'funny'].forEach(category => {
+        formData.append('category', category);
+      });
+
+      fetch('http://localhost:3000/app/add-application', {
+        method: 'post',
+        body: formData,
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data)
+        })
+    } else {
+      console.log('pls, add files')
+    }
+  })
+</script>
+
+</html>

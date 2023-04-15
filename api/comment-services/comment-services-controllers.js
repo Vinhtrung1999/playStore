@@ -1,25 +1,22 @@
 const application = require('../../models/application');
+const { updateByObject } = require('../../services/database');
 
 const delComment = async (req, res) => {
   try {
     const { idApplication, idComment } = req.body;
-    const result = await application.updateOne(
-      { _id: idApplication },
-      {
-        $pull: {
-          comment: { _id: idComment },
-        },
+    const result = await updateByObject({
+      $pull: {
+        comment: { _id: idComment },
       },
-    );
+    }, application, { _id: idApplication });
 
     return res.json({
-      ErrorCode: 0,
-      Message: result,
+      data: result,
     });
   } catch (error) {
     return res.json({
-      ErrorCode: 0,
-      Message: error.message,
+      errorCode: 1,
+      message: error.message,
     });
   }
 };
@@ -27,23 +24,19 @@ const delComment = async (req, res) => {
 const addComment = async (req, res) => {
   try {
     const { idApplication, comment } = req.body;
-    const result = await application.updateOne(
-      { _id: idApplication },
-      {
-        $push: {
-          comment,
-        },
+    const result = await updateByObject({
+      $push: {
+        comment,
       },
-    );
+    }, application, { _id: idApplication });
 
     return res.json({
-      ErrorCode: 0,
-      Message: result,
+      data: result,
     });
   } catch (error) {
     return res.json({
-      ErrorCode: 0,
-      Message: error.message,
+      errorCode: 1,
+      message: error.message,
     });
   }
 }
