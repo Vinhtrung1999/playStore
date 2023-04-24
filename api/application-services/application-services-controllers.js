@@ -4,6 +4,7 @@ const {
   createByObject,
   updateByObject,
 } = require('../../services/database');
+const { sendMail } = require('../../services/send-mail/send-mail');
 
 const getApplicationList = async (req, res) => {
   try {
@@ -54,7 +55,11 @@ const findApplicationObject = async (req, res) => {
 const addApplication = async (req, res) => {
   try {
     const apps = req.body;
+    const user = req.user;
     const result = await createByObject(apps, application);
+
+    const subject = 'Request for approval';
+    await sendMail(user.email, subject, 'request-application', result);
 
     return res.json({
       message: result,

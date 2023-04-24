@@ -3,6 +3,8 @@ const {
   queryByObject,
   createByObject,
 } = require('../../services/database');
+const jwt = require('jsonwebtoken');
+const { privateKey } = require('../../services/config');
 
 const userLogin = async (req, res) => {
   try {
@@ -24,8 +26,22 @@ const userLogin = async (req, res) => {
       result = await createByObject(userPayload, user);
     }
 
+    const tokenData = {
+      _id: result._id,
+      fullName: result.fullName,
+      email: result.email,
+      role: result.role,
+    };
+
+    const tokenOpts = {
+      expiresIn: '1h',
+    }
+    const token = jwt.sign(tokenData, privateKey, tokenOpts);
+
     return res.json({
+      errorCode: 0,
       data: result,
+      token,
     });
   } catch (error) {
     return res.json({

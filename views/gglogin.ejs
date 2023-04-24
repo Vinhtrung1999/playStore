@@ -33,6 +33,9 @@
       .then(res => res.json())
       .then(data => {
         console.log(data);
+        if (data.errorCode === 0) {
+          localStorage.setItem('token', data.token);
+        }
       });
   }
 
@@ -49,8 +52,8 @@
       };
 
       formData.append('owner', 'trungtran');
-      formData.append('name', 'Dragon City');
-      formData.append('description', 'This is a best choice in summer 2023');
+      formData.append('name', 'Rise Of King Dom');
+      formData.append('description', 'This is a best game in summer 2023');
 
       ['action', 'funny'].forEach(category => {
         formData.append('category', category);
@@ -59,6 +62,9 @@
       fetch('http://localhost:3000/app/add-application', {
         method: 'post',
         body: formData,
+        headers: {
+          token: localStorage.getItem('token') || 'abc',
+        }
       })
         .then(res => res.json())
         .then(data => {

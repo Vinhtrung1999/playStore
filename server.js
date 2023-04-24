@@ -20,15 +20,15 @@ server.listen(serverConfig, () => console.log(`
 @ app test
 @----------------
 */
-const app = express();
+// const app = express();
 
-app.use(cors());
-app.set('view engine', 'ejs');
-app.get('/', (req, res) => {
-    return res.render('gglogin')
-})
-app.listen(5000, () => console.log(`
------------------------------------------------------------------------
-    API server running at: http://localhost:5000
------------------------------------------------------------------------
-`));
+// app.use(cors());
+// app.set('view engine', 'ejs');
+// app.get('/', (req, res) => {
+//     return res.render('gglogin')
+// })
+// app.listen(5000, () => console.log(`
+// -----------------------------------------------------------------------
+//     API server running at: http://localhost:5000
+// -----------------------------------------------------------------------
+// `));

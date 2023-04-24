@@ -11,4 +11,9 @@ module.exports = {
     port: process.env.PORT,
     environment: process.env.ENV,
   },
+  mailService: {
+    mailAdmin: process.env.MAIL_ADMIN,
+    mailPassword: process.env.MAIL_PWD,
+  },
+  privateKey: process.env.PRIVATE_KEY,
 };

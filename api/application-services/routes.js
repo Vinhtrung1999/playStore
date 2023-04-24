@@ -6,7 +6,9 @@ const {
   addApplication,
   findApplicationObject,
   updateApplication,
+  testSendMail,
 } = require('./application-services-Controllers');
+const { tokenValidation } = require('../../middleware/token-validation');
 const routerApplication = express.Router();
 const multer = require('multer');
 const uploadFile = multer({ dest: './asset' });
@@ -15,7 +17,9 @@ const cpUpload = uploadFile.fields([{ name: 'resource', maxCount: 1 }, { name: '
 routerApplication.get('/', getApplicationList);
 routerApplication.get('/find-one-application', findOneApplication);
 routerApplication.get('/find-application-obj', findApplicationObject);
-routerApplication.post('/add-application', cpUpload, checkFileUpload, addApplication);
-routerApplication.post('/update-application', updateApplication);
+routerApplication.post('/add-application', tokenValidation, cpUpload, checkFileUpload, addApplication);
+routerApplication.post('/update-application', tokenValidation, updateApplication);
+// test
+// routerApplication.post('/test-send-mail', testSendMail);
 
 module.exports = routerApplication;
