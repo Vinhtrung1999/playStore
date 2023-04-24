@@ -1,6 +1,1 @@
-#https://freedb.tech/dashboard/tos.html
-host:sql.freedb.tech
-port:
-DBName: freedb_playstoreServices
-UserName: freedb_playstore
-Password: HVse98R@#nmx&Yk
+mongoDB

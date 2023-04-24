@@ -16,6 +16,46 @@ const getConnection = async (logger) => {
   }
 }
 
+const queryByObject = async (obj, model) => {
+  try {
+    const result = await model.find(obj);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
+
+const updateByObject = async (obj, model, condition) => {
+  try {
+    const result = await model.updateOne(condition, obj);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
+
+const createByObject = async (obj, model) => {
+  try {
+    const result = await (new model(obj)).save();
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
+
+const deleteByObject = async (model, condition) => {
+  try {
+    const result = await model.deleteOne(condition);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   getConnection,
+  queryByObject,
+  updateByObject,
+  createByObject,
+  deleteByObject,
 };

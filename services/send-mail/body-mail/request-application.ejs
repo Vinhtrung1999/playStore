@@ -1,0 +1,43 @@
+<html>
+
+<head>
+  <title>REQUEST APPROVAL FOR <b>
+      <%= application.name %>
+    </b> APPLICATION</title>
+</head>
+
+<body style="color: #000;">
+  <div style="background-color: blue; color: #ffffff; text-align: center; padding: 3px; font-weight: 800;">Request -
+    Notification</div>
+  <div style="color: red; padding: 2px; font-weight: 600;">This is an automationcally generated email. Please do not
+    reply this message</div>
+  <hr>
+  <div>
+    <h3>
+      Thank you! Your application has been send to admin of PLAY STORE. Please wait for approval within 3 - 5 work day.
+      The below are details.
+    </h3>
+    <div style="display: flex; padding: 5px;">
+      <div style="width: 120px;"><b>APPLICATION ID</b></div>
+      <div>
+        <%= application._id %>
+      </div>
+    </div>
+    <div style="display: flex; padding: 5px;">
+      <div style="width: 120px;"><b>APPLICATION NAME</b></div>
+      <div>
+        <%= application.name %>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div style="color: red; padding: 2px; font-weight: 600;">This is an automated notification sent by APPLICATION
+    Services
+  </div>
+  <div style="background-color: blue; font-weight: 400; color: #ffffff; font-size: .6rem; padding: 2px;">
+    <div style="text-align: start">APPLICATION Services</div>
+    <div style="text-align: end">@2013 hrl ... ...</div>
+  </div>
+</body>
+
+</html>

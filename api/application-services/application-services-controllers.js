@@ -1,14 +1,21 @@
 const application = require('../../models/application');
+const {
+  queryByObject,
+  createByObject,
+  updateByObject,
+} = require('../../services/database');
+const { sendMail } = require('../../services/send-mail/send-mail');
 
 const getApplicationList = async (req, res) => {
   try {
-    const result = await application.find({});
+    const result = await queryByObject({}, application);
     return res.json({
-      total: result.length,
+      totalSize: result.length,
       data: result,
     });
   } catch (error) {
     return res.json({
+      errorCode: 1,
       message: error.message,
     });
   }
@@ -17,12 +24,29 @@ const getApplicationList = async (req, res) => {
 const findOneApplication = async (req, res) => {
   try {
     const { idApplication } = req.body;
-    const result = await application.find({ _id: idApplication });
+    const result = await queryByObject({ _id: idApplication }, application);
     return res.json({
       data: result,
     });
   } catch (error) {
     return res.json({
+      errorCode: 1,
+      message: error.message,
+    });
+  }
+};
+
+const findApplicationObject = async (req, res) => {
+  try {
+    const obj = req.body;
+    const result = await queryByObject(obj, application);
+    return res.json({
+      totalSize: result.length,
+      data: result,
+    });
+  } catch (error) {
+    return res.json({
+      errorCode: 1,
       message: error.message,
     });
   }
@@ -31,19 +55,24 @@ const findOneApplication = async (req, res) => {
 const addApplication = async (req, res) => {
   try {
     const apps = req.body;
-    const newApplication = new application(apps);
-    const result = await newApplication.save();
+    const user = req.user;
+    const result = await createByObject(apps, application);
+
+    const subject = 'Request for approval';
+    await sendMail(user.email, subject, 'request-application', result);
 
     return res.json({
       message: result,
     });
   } catch (error) {
     return res.json({
+      errorCode: 1,
       message: error.message,
     });
   }
 };
 
+// TODO should be delete
 const addSample = async (req, res) => {
   try {
     const newApplication = new application({
@@ -67,14 +96,32 @@ const addSample = async (req, res) => {
     });
   } catch (error) {
     return res.json({
+      errorCode: 1,
       message: error.message,
     });
   }
-}
+};
+
+const updateApplication = async (req, res) => {
+  try {
+    const { idApplication, newApplication } = req.body;
+    const result = await updateByObject(newApplication, application, { _id: idApplication });
+    return res.json({
+      message: result,
+    });
+  } catch (error) {
+    return res.json({
+      errorCode: 1,
+      message: error.message,
+    });
+  }
+};
 
 module.exports = {
   getApplicationList,
   findOneApplication,
   addApplication,
   addSample,
+  findApplicationObject,
+  updateApplication,
 }

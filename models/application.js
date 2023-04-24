@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const { commentSchema } = require('./comment');
 
 const applicationSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
   owner: {
     type: String,
     default: '',
@@ -28,6 +32,10 @@ const applicationSchema = new mongoose.Schema({
   },
   resource: {
     type: String,
+    required: true,
+  },
+  images: {
+    type: [String],
     required: true,
   },
   comment: {
